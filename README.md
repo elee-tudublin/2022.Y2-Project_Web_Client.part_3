@@ -26,7 +26,7 @@ A new data access script **`adminData.js`** contains the functions used to `inse
 
 
 
-Open the start project  in  **[VS Code](https://code.visualstudio.com/)**, run the web server, and view http://localhost:3000/admin.html before continuing this tutorial.
+Open the start project  in  **[VS Code](https://code.visualstudio.com/)**, run the web server, and view **http://localhost:3000/admin.html** before continuing this tutorial.
 
 The admin page looks similar to the the default `index.html` view with additional buttons to add, edit, or delete. The following sections will explain how everything works.
 
@@ -40,7 +40,7 @@ The Add computer form is hidden by default and only displayed when the **Add Com
 
 ### 1. Show the form when the Add Product button is clicked
 
-The button has been added under the product table. It has been configured to `toggle` (show/ hide) the a **Bootstrap modal form** When clicked, the form is displayed, appearing as a dialog in focus and in the foreground.  The site page is greyed out in the background.
+The `add form button` has been added under the product table. It has been configured to `toggle` (show/ hide) the a **Bootstrap modal form** When clicked, the form is displayed, appearing as a dialog in focus and in the foreground.
 
 For more about modal dialogs see https://getbootstrap.com/docs/5.0/components/modal/
 
@@ -54,7 +54,7 @@ For more about modal dialogs see https://getbootstrap.com/docs/5.0/components/mo
 
 See **`admin.html`** for the HTML + Bootstrap styling used to create the form and make it `modal`. 
 
-The Bootstrap 5 modal dialog defines a `header`, `body`, and `footer` sections. The `computer form` is defined in the `body` section. Other than being defined in the modal, it is a standard form (with Bootstrap styling). Note the form `input` elements for each of the `computer attributes` . The form button are defined in the modal footer.
+The Bootstrap 5 modal dialog defines a `header`, `body`, and `footer` sections. The `computer form` is defined in the `body` section. Other than being defined in the modal, it is a standard form with Bootstrap styling. Note the form `input` elements for each of the `computer attributes` . The form button are defined in the modal footer.
 
 The `id` attribute value of the modal `div element`, `computerFormDialog` will be used elsewhere to show or hide the modal.
 
@@ -64,7 +64,7 @@ The `id` attribute value of the modal `div element`, `computerFormDialog` will b
 
 ### 2. The Add Computer Button
 
-The Add computer button uses Bootstrap to show or hide the `modal form`. `data-bs-target` defines  the modal element `id` to display when clicked.
+The `Add computer` button uses Bootstrap to show or hide the `modal form`. `data-bs-target` defines  the modal element `id` to display when clicked.
 
 ![Add computer button](./media/add_button.png)
 
@@ -86,9 +86,9 @@ the value for `formTitle` is set to `Add a new Computer` by default, in case the
 
 ### 3. Submitting the form
 
-When the form is submitted, by clicking the `save` button is clicked, the  `addOrUpdateComputer()` function is called to process the data entered.
+When the form is submitted (by clicking the `save` button), the  `addOrUpdateComputer()` function is called to process the data entered.
 
-1. This function first calls the **`getComputerFormData()`** function to get a copy of the values entered. 
+1. This function first calls the **`getComputerFormData()`** function to get a copy of the values entered in the form. 
 2. If the `id` value is 0, that indicates a new computer - as existing computers will have a `id` value set.
 3. Call `adminData.addComputer()` passing the new computer data. 
 
@@ -98,9 +98,9 @@ When the form is submitted, by clicking the `save` button is clicked, the  `addO
 
 ##### The **`getComputerFormData()`** function:
 
-The function reads each form field and sets object values.
+The function reads each form field and returns them as an object.
 
-The result is a computer object with `id`, `name`, `description`,  and  `location`. which is returned.
+The result is a computer object with `id`, `name`, `description`,  and  `location`.
 
 ![Get form data](./media/get_form_data.png)
 
@@ -114,7 +114,7 @@ The result is a computer object with `id`, `name`, `description`,  and  `locatio
 
 
 
-the `addComputer()` function uses`Supabase` to insert the computer by setting up the API call, and seeting the data in a (supabase) `insert` statement. 
+The `addComputer()` function uses `Supabase` to insert the computer by setting up the API call, and setting the data in an `insert` statement. 
 
 ![insert computer](./media/insert_computer.png)
 
@@ -126,9 +126,9 @@ Editing or updating an existing computer builds on the previous step. The same f
 
 ### 1. Selecting the computer to edit
 
-This is where updating a computer differs from adding a computer. Instead of starting with an empty form, it must start with he existing values. 
+This is where updating a computer differs from adding a computer. Instead of starting with an empty form, it must start with the existing values. 
 
-You should see that each computer in the admin page has an `edit` button next to it. This button is used to choose the computer and fill the form with its values (see the `displayComputers()` function in `index.js`).
+Each computer in the admin page has an `edit` button next to it. This button is used to choose which computer to edit (see the `displayComputers()` function in `index.js`).
 
 ![computer buttons](./media/computer_buttons.png)
 
@@ -137,15 +137,16 @@ You should see that each computer in the admin page has an `edit` button next to
 The buttons also have click events associated with them, defined at the end of `displayComputers()`:
 
 1. Get a reference to each set of buttons, using a `css class` associated with each.
-2. Add click event listeners for filtering by computer.
-3. Add click event listeners for deleting a computer.
-4. Add click event listeners for updating a computer.
+2. Add click event listeners for **filtering by computer**.
+3. Add click event listeners for **deleting a computer**.
+4. Add click event listeners for **updating a computer**.
 
 ![button events](./media/butto_events.png)
 
 
 
 ##### The `prepareUpdate()` function is called when an edit button is clicked
+This function retrieves a computer by its `id` and fills the form for editing:
 
 1. Use the `data-computer_id` value of the button clicked to `getComputerById()`. This function can be found in `computerData.js`.
 2. If a computer was returned, initialise the form - same as for add computer but with a different title.
@@ -157,7 +158,7 @@ The buttons also have click events associated with them, defined at the end of `
 
 ### 2. Updating the computer
 
-When the `save` button is clicked (in he form). the `addOrUpdateComputer()` function is called, as before. This time when it checks for `id === 0` the result will be `false` as the computer will have an existing `id`. That will result in `adminData.updateComputer()` being called.
+When the form `save` button is clicked, the `addOrUpdateComputer()` function is called. This time when it checks for `id === 0` the result will be `false` as the computer will have an existing `id` (set in the **hidden** `id` field). That will result in `adminData.updateComputer()` being called.
 
 ![update](./media/update.png)
 
@@ -166,8 +167,6 @@ When the `save` button is clicked (in he form). the `addOrUpdateComputer()` func
 ##### `adminData.updateComputer()` uses a Supabase update call:
 
 ![update](./media/update_db.png)
-
-
 
 
 
@@ -193,13 +192,11 @@ When clicked, the button calls the **`deleteComputer()`** function in **`admin.j
 ![image-20220323003011750](./media/delete_computer_and_events.png)
 
 
-
 ## Part 4: Delete an Event
 
-This is very similar to the previous part. Each event has a delete button. When clicked, the `deleteEvent()` function is called. It confirms the delete should go ahead and then calls the `deleteEventById()` function in `adminData.js`
+Each event has a delete button. When clicked, the `deleteEvent()` function is called. It confirms the delete should go ahead and then calls the `deleteEventById()` function in `adminData.js`
 
 ![delete event](./media/delete_event.png)
-
 
 
 ## Part 5: Subscribing to database changes
